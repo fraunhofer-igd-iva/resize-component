@@ -5,3 +5,5 @@ src/page.js
 src/withRoot.js
 src/chart-example.js
 public/index.html
+*.sublime-workspace
+*.sublime-project
