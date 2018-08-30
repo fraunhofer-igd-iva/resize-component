@@ -11,8 +11,9 @@
 
 import React, { Component } from 'react';
 import MyAwesomeChartImpl from './chart-example';
-//import {ResizeComponent} from "@iva/resize-component";
-import ResizeComponent from "./resize-component";
+import ResizeComponent from "../../src/";
+// In your application you should write this:
+//import ResizeComponent from "@iva/resize-component";
 
 /**
  * React-Wrapper around a D3 component
@@ -20,7 +21,6 @@ import ResizeComponent from "./resize-component";
 class MyAwesomeChart extends Component {
     constructor(props) {
         super(props);
-
         this.container = null;
     }
 
@@ -29,7 +29,6 @@ class MyAwesomeChart extends Component {
     }
 
     componentDidUpdate() {
-        console.log(this.props.sizeSettings);
         this._chart.updateChart(this.props.data, this.props.sizeSettings);
     }
 
