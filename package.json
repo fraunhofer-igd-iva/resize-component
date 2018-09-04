@@ -1,6 +1,6 @@
 {
   "name": "@iva/resize-component",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "This React component resizes the given chart to the available dimensions.",
   "main": "dist/index.js",
   "types": "src/resize-component.d.ts",
