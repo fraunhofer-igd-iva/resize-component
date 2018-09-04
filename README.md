@@ -36,15 +36,32 @@ output
       width: number // avilable width in pixel, can change
     }
 
-### How to use it
+### How to add it to a component
 
 write a Wrapper component for your Chart, import the ResizeComponent
 
     import {ResizeComponent} from "@iva/resize-component";
 
+
 and when exporting your class wrap it
 
     export default ResizeComponent(MyAwesomeChart);
+
+
+### How to use it
+
+In the react component, where you use your HOC- chart:
+
+    import "./MyAwesomeChart";
+
+    render() {
+        <MyAwesomeChart sizeSettings= {{
+          height:  string or number, // can be px, vh or %. Numbers will be interpreted as pixel
+          minHeight: number, // minimum height in Pixel
+          updateHeight: boolean // if height should change (only vh or %)
+        }} />
+    }
+
 
 ### Examples
 
