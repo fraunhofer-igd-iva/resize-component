@@ -38,7 +38,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
-    "transpile": "babel src -d dist --copy-files",
+    "transpile": "babel src -d dist --copy-files --source-maps",
     "prepublishOnly": "npm run transpile"
   }
 }

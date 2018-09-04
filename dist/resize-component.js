@@ -207,3 +207,4 @@ exports.default = function (ChartComponent) {
     return ResizeComponent;
   }(_react2.default.Component);
 };
+//# sourceMappingURL=resize-component.js.map
