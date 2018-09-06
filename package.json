@@ -1,6 +1,6 @@
 {
   "name": "@iva/resize-component",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "This React component resizes the given chart to the available dimensions.",
   "main": "dist/index.js",
   "types": "src/resize-component.d.ts",
@@ -38,7 +38,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
-    "transpile": "babel src -d dist --copy-files",
+    "transpile": "babel src -d dist --copy-files --source-maps",
     "prepublishOnly": "npm run transpile"
   }
 }
