@@ -65,7 +65,7 @@ In the react component, where you use your HOC- chart:
 
 ### Examples
 
-You can find an example for the wrapper component in ```src/wrapper-example.js```.
+You can find an example for the wrapper component in ```examples/src/wrapper-example.js```.
 
 Also the following projects use ResizeComponent:
 
