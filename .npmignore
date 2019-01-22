@@ -1,9 +1,0 @@
-node_modules/
-*.png
-src
-examples
-*.sublime-workspace
-*.sublime-project
-webpack.config.js
-.babelrc
-.gitignore

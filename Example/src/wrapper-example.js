@@ -11,9 +11,7 @@
 
 import React, { Component } from 'react';
 import MyAwesomeChartImpl from './chart-example';
-import ResizeComponent from "../../src/";
-// In your application you should write this:
-//import ResizeComponent from "@iva/resize-component";
+import {ResizeComponent} from "@iva/resize-component";
 
 /**
  * React-Wrapper around a D3 component

@@ -57,7 +57,7 @@ export default class TemplateChartImpl{
      * Called after init & updateData (before render() )
      */
     updateScalesToData(){
-
+      
     }
 
     render() {

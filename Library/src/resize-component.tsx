@@ -11,9 +11,33 @@
 
 import React from 'react';
 
-export default ChartComponent => (
-  class ResizeComponent extends React.Component {
-    constructor(props) {
+export interface InputSizeSettings {
+  height?: number | string;
+  minHeight?: number;
+  updateHeight?: boolean;
+};
+
+export interface Props {
+  sizeSettings: InputSizeSettings;
+}
+
+type SizeSettings = {
+  startHeight: number | string;
+  minHeight: number;
+  updateHeight: boolean;
+};
+
+type State = SizeSettings & {
+  defaultHeight: number;
+  width: number | null;
+  height: number | null;
+}
+
+export default (WrappedComponent: any) => (
+  class ResizeComponent extends React.Component<Props, State> {
+    private chartContainer: HTMLDivElement;
+
+    constructor(props: Props) {
       super(props);
 
       this.state = Object.assign(
@@ -27,19 +51,19 @@ export default ChartComponent => (
       this.calculateContainerSize = this.calculateContainerSize.bind(this);
     }
 
-    _getDefaultState(sizeSettings){
+    _getDefaultState(sizeSettings: InputSizeSettings): SizeSettings {
       return {
         startHeight: sizeSettings.height ? sizeSettings.height : 400,
         minHeight: sizeSettings.minHeight ? sizeSettings.minHeight : 100,
-        updateHeight: sizeSettings.updateHeight ? sizeSettings.updateHeight : true
+        updateHeight: sizeSettings.updateHeight ? sizeSettings.updateHeight : true,
       }
     }
 
-    componentDidUpdate(prevProps) {
+    componentDidUpdate(prevProps: Props) {
       // if any prop changed update it
-      if(this.props.sizeSettings.height !== prevProps.sizeSettings.height ||
+      if (this.props.sizeSettings.height !== prevProps.sizeSettings.height ||
         this.props.sizeSettings.minHeight !== prevProps.sizeSettings.minHeight ||
-        this.props.sizeSettings.updateHeight !== prevProps.sizeSettings.updateHeight){
+        this.props.sizeSettings.updateHeight !== prevProps.sizeSettings.updateHeight) {
         this.setState(this._getDefaultState(this.props.sizeSettings),
           () => this.calculateContainerSize());
       }
@@ -60,17 +84,15 @@ export default ChartComponent => (
       let chartHeight = height;
 
       // on initial call or when updateHeight is set
-      if(!chartHeight || updateHeight){
+      if (!chartHeight || updateHeight) {
         chartHeight = this.parseValue(startHeight);
 
         // when parsing failed
-        if(chartHeight === null){
+        if (chartHeight === null) {
           chartHeight = defaultHeight;
         }
         chartHeight = Math.max(chartHeight, minHeight);
       }
-
-
 
       if (width !== chartWidth || height !== chartHeight) {
         this.setState({
@@ -81,17 +103,19 @@ export default ChartComponent => (
     }
 
     renderChart() {
-      const {width, height} = this.state;
+      const { width, height } = this.state;
 
       // merge the sizeSettings with our width and height. sizeSetting can
       // contain padding, fontsize etc which we don't want to overwrite
-      let sizeSettings = Object.assign({width: width, height: height}, this.props.sizeSettings);
+      let sizeSettings = Object.assign({ width: width, height: height }, this.props.sizeSettings);
 
       // fix: when variable is "" its not overwritten by our value
-      sizeSettings.height = height;
+      if (height) {
+        sizeSettings.height = height;
+      }
 
       // fix: when width is given as "" we overwrite it
-      if(!sizeSettings.width || sizeSettings.width === ""){
+      if (!sizeSettings.width) {
         sizeSettings.width = width;
       }
 
@@ -100,23 +124,23 @@ export default ChartComponent => (
 
       // overwrite the sizeSettings with our sizeSetting version and render the chart
       return (
-          <ChartComponent {...this.props} sizeSettings={sizeSettings}/>
-        );
+        <WrappedComponent {...this.props} sizeSettings={sizeSettings} />
+      );
     }
 
     render() {
       const { width, height } = this.state;
       const shouldRenderChart = width !== null && height !== null;
-      
+
       // with ref we bind the chartContainer to get the width
       // we only render the chart when we have values for width and height
       return (
-        <div 
-          ref={(e) => { this.chartContainer = e }}
+        <div
+          ref={(e) => { this.chartContainer = e as HTMLDivElement }}
           className="responsive-wrapper">
           {shouldRenderChart && this.renderChart()}
         </div>
-        )
+      )
     }
 
     /**
@@ -131,28 +155,28 @@ export default ChartComponent => (
     * "50%" -> 6620
     * "test" -> null
     **/
-    parseValue(value){
+    parseValue(value: number | string): number | null {
       let result = value;
-      if(typeof(value) === "string"){
+      if (typeof (value) === "string") {
         value = value.trim().toLowerCase();
         let scale = 1.0;
         let cut = 0;
         let twoCharacters = value.substring(value.length - 2);
         let oneCharacter = value.substring(value.length - 1);
 
-        if(oneCharacter === "%"){
+        if (oneCharacter === "%") {
           scale = document.body.clientHeight / 100.0;
           cut = 1;
-        }else if(twoCharacters === "vh"){
+        } else if (twoCharacters === "vh") {
           scale = window.innerHeight / 100.0;
           cut = 2;
-        }else if(twoCharacters === "px"){
+        } else if (twoCharacters === "px") {
           cut = 2;
         }
 
         result = Number(value.substring(0, value.length - cut)) * scale;
       }
-      if(typeof(result) === "number"){
+      if (typeof (result) === "number") {
         return result;
       }
       return null;
