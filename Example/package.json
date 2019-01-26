@@ -1,6 +1,6 @@
 {
   "name": "@iva/resize-component-example",
-  "version": "1.1.0",
+  "version": "2.0.0",
   "description": "Example project for @iva/resize-component",
   "repository": {
     "type": "git",
@@ -9,7 +9,7 @@
   "author": "Steven Lamarr Reynolds <steven.lamarr.reynolds@igd.fraunhofer.de>",
   "license": "Fraunhofer IGD",
   "dependencies": {
-    "@iva/resize-component": "^1.1.0",
+    "@iva/resize-component": "^2.0.0",
     "@material-ui/core": "1.5.0",
     "d3": "5.5.0",
     "react": "^16.7.0",

@@ -61,7 +61,6 @@ export default class TemplateChartImpl{
     }
 
     render() {
-
         // Render chart here
 
         this.svg.append("rect")
