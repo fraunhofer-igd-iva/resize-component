@@ -80,3 +80,11 @@ Also the following projects use ResizeComponent:
 
   [1]: https://gitbucket.igd.fraunhofer.de/jburmeis/JivaChartsJS
   [2]: https://gitbucket.igd.fraunhofer.de/jburmeis/AttributeRelations
+
+
+### Building, Deployment & Demo App
+This repository contains two separate projects: The library and a demo app:
+* Library/ contains the actual library. Build and deploy via tsc --> npm publish
+* Example/ contains a demo for the library. Install and run via npm install --> npm start
+
+
