@@ -1,6 +1,9 @@
 ## Resize Component
 
-This React component resizes the given chart to the available dimensions.
+This React higher order component injects a size information props into a wrapped component.
+
+### Breaking changes from version 1 to 2
+The API has remained the same, but the import and usage is slightly different. See "How to add it to a component".
 
 ### Local demo
 
@@ -24,28 +27,29 @@ This React component resizes the given chart to the available dimensions.
 input
 
     sizeSettings: {
-      height:  string or number, // can be px, vh or %. Numbers will be interpreted as pixel
-      minHeight: number, // minimum height in Pixel
-      updateHeight: boolean // if height should change (only vh or %)
+      height?:  string | number,  // can be px, vh or %. Numbers will be interpreted as pixel
+      minHeight?: number,         // minimum height in Pixel
+      updateHeight?: boolean      // if height should change (only vh or %)
     }
 
 output
 
     sizeSettings: {
       height: number, // available height in pixel, can only change when updateHeight is set
-      width: number // avilable width in pixel, can change
+      width: number   // avilable width in pixel, can change
     }
+
 
 ### How to add it to a component
 
-write a Wrapper component for your Chart, import the ResizeComponent
+write a Wrapper component for your Chart component 'MyAwesomeChart', import the ResizeComponent
 
-    import {ResizeComponent} from "@iva/resize-component";
+    import ResizeComponent from "@iva/resize-component";
 
 
 and when exporting your class wrap it
 
-    export default ResizeComponent(MyAwesomeChart);
+    export default ResizeComponent()(MyAwesomeChart);
 
 
 ### How to use it
@@ -61,6 +65,18 @@ In the react component, where you use your HOC- chart:
           updateHeight: boolean // if height should change (only vh or %)
         }} />
     }
+
+The sizeSettings will be replaced by the ResizeComponent, and MyAwesomeChart will receive the props sizeSettings = {width: number, height: number}.
+
+### How to use it with TypeScript
+MyAwesomeChart can simply receive and integrate the props from the wrapping ResizeComponent via: 
+
+    import ResizeComponent, {InjectedProps} from "@iva/resize-component";
+    ...
+    class MyAwesomeChart extends React.Component<MyProps & InjectedProps> {
+        ...
+    }
+    export default ResizeComponent()(MyAwesomeChart);
 
 
 ### Examples

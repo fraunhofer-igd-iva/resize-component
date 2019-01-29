@@ -1,9 +1,9 @@
 {
   "name": "@iva/resize-component",
-  "version": "1.1.0",
-  "description": "This React component resizes the given chart to the available dimensions.",
-  "main": "lib/index.js",
-  "types": "lib/index.d.ts",
+  "version": "2.0.0",
+  "description": "This React component injects a size information props into a wrapped component",
+  "main": "lib/resize-component.js",
+  "types": "lib/resize-component.d.ts",
   "publishConfig": {
     "registry": "https://registry.igd.fraunhofer.de/repository/npm-hosted"
   },

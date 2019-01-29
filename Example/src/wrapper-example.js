@@ -11,7 +11,7 @@
 
 import React, { Component } from 'react';
 import MyAwesomeChartImpl from './chart-example';
-import {ResizeComponent} from "@iva/resize-component";
+import ResizeComponent from "@iva/resize-component";
 
 /**
  * React-Wrapper around a D3 component
@@ -39,4 +39,4 @@ class MyAwesomeChart extends Component {
     }
 }
 
-export default ResizeComponent(MyAwesomeChart);
+export default ResizeComponent()(MyAwesomeChart);

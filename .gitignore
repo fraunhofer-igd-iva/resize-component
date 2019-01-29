@@ -1,8 +1,12 @@
 # dependencies
-/node_modules
+/Example/node_modules
+/Library/node_modules
+
+/Example/package-lock.json
+/Library/package-lock.json
 
 # build
-lib/
+/Library/lib/
 
 # misc
 .DS_Store

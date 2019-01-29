@@ -1,1 +1,0 @@
-export {default as ResizeComponent} from './resize-component'
