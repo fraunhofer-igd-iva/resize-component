@@ -59,7 +59,7 @@ const ResizeComponent = () => <OriginalProps extends {}>(WrappedComponent: React
     _getDefaultState(sizeSettings: SizeSettings): CompleteSizeSettings {
       return {
         startHeight: sizeSettings.height ? sizeSettings.height : 400,
-        minHeight: sizeSettings.minHeight ? sizeSettings.minHeight : 100,
+        minHeight: sizeSettings.minHeight ? sizeSettings.minHeight : 0,
         updateHeight: sizeSettings.updateHeight ? sizeSettings.updateHeight : true,
       }
     }
