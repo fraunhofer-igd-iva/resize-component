@@ -1,12 +1,8 @@
 import * as React from 'react'
+import { Subtract } from 'utility-types';
 
-export type Size = {
-  width: number;
-  height: number;
-}
-
-// Props you want the resulting component to take (besides the props of the wrapped component)
-export interface ExternalProps {
+// Props for the HOC wrapper
+export interface WrapperProps {
   sizeSettings: SizeSettings;
 }
 
@@ -15,138 +11,98 @@ export interface InjectedProps {
   sizeSettings: Size;
 }
 
+// Size injected by the HOC into the wrapped component
+export type Size = {
+  outputWidth: number;
+  outputHeight: number;
+}
+
 // Size settings provided by the caller
-export interface SizeSettings {
-  height?: number | string;
-  minHeight?: number;
-  updateHeight?: boolean;
+export type SizeSettings = {
+  [key in keyof CompleteSizeSettings]?: CompleteSizeSettings[key];
 };
 
 // Size settings with complete setup
 type CompleteSizeSettings = {
-  startHeight: number | string;
+  height: number | string;
   minHeight: number;
   updateHeight: boolean;
 };
 
 // Internal state
-type State = CompleteSizeSettings & {
-  width: number;
-  height: number;
+type State = CompleteSizeSettings & Size;
+
+// Defaults
+const defaultHeight = 400;
+const defaultSizeSettings: CompleteSizeSettings = {
+  height: defaultHeight,
+  minHeight: 0,
+  updateHeight: true,
 }
 
-const defaultHeight = 400;
+const ResizeComponent = <WrappedComponentProps extends InjectedProps>(WrappedComponent: React.ComponentType<WrappedComponentProps>) =>
+  class ResizeHOC extends React.Component<Subtract<WrappedComponentProps, InjectedProps> & WrapperProps, State> {
+    chartContainer: HTMLDivElement;
 
-const ResizeComponent = () => <OriginalProps extends {}>(WrappedComponent: React.ComponentType<OriginalProps & InjectedProps>, ): React.ComponentClass<OriginalProps & ExternalProps> => {
-  type CombinedProps = OriginalProps & ExternalProps;
-
-  class ResizeHOC extends React.Component<CombinedProps, State> {
-    private chartContainer: HTMLDivElement;
-
-    constructor(props: CombinedProps) {
+    constructor(props: Subtract<WrappedComponentProps, InjectedProps> & WrapperProps) {
       super(props);
 
       this.state = Object.assign(
-        this._getDefaultState(this.props.sizeSettings),
+        this.getCompletedState(this.props.sizeSettings),
         {
-          width: 0,
-          height: 0
+          outputWidth: 0,
+          outputHeight: 0
         }
       );
-      this.calculateContainerSize = this.calculateContainerSize.bind(this);
+      this.updateStateToContainerSize = this.updateStateToContainerSize.bind(this);
     }
 
-    _getDefaultState(sizeSettings: SizeSettings): CompleteSizeSettings {
-      return {
-        startHeight: sizeSettings.height ? sizeSettings.height : 400,
-        minHeight: sizeSettings.minHeight ? sizeSettings.minHeight : 0,
-        updateHeight: sizeSettings.updateHeight ? sizeSettings.updateHeight : true,
-      }
+    getCompletedState(sizeSettings: SizeSettings): CompleteSizeSettings {
+      return Object.assign({}, defaultSizeSettings, sizeSettings);
     }
 
-    componentDidUpdate(prevProps: CombinedProps) {
+    componentDidUpdate(prevProps: WrapperProps) {
       // if any prop changed update it
       if (this.props.sizeSettings.height !== prevProps.sizeSettings.height ||
         this.props.sizeSettings.minHeight !== prevProps.sizeSettings.minHeight ||
         this.props.sizeSettings.updateHeight !== prevProps.sizeSettings.updateHeight) {
-        this.setState(this._getDefaultState(this.props.sizeSettings),
-          () => this.calculateContainerSize());
+        this.setState(this.getCompletedState(this.props.sizeSettings), () => this.updateStateToContainerSize());
       }
     }
 
     componentDidMount() {
-      this.calculateContainerSize();
-      window.addEventListener('resize', this.calculateContainerSize);
+      this.updateStateToContainerSize();
+      window.addEventListener('resize', this.updateStateToContainerSize);
     }
 
     componentWillUnmount() {
-      window.removeEventListener('resize', this.calculateContainerSize);
+      window.removeEventListener('resize', this.updateStateToContainerSize);
     }
 
-    calculateContainerSize() {
-      const { width, height, startHeight, minHeight, updateHeight } = this.state;
+    updateStateToContainerSize() {
+      const { outputWidth, outputHeight, height, minHeight, updateHeight } = this.state;
       const chartWidth = this.chartContainer.getBoundingClientRect().width;
-      let chartHeight = height;
+      let chartHeight: number = 0;
 
-      // on initial call or when updateHeight is set
-      if (!chartHeight || updateHeight) {
-        let parsedHeight = this.parseValue(startHeight);
+      // Parse height, if not already numerical
+      if (typeof (height) !== 'number' || updateHeight) {
+        const parsedHeight = this.parseValue(height);
 
-        // when parsing failed
+        // Fallback to default height, if parsing failed
         chartHeight = (parsedHeight !== null) ? parsedHeight : defaultHeight;
 
         // Consider min height settings
         chartHeight = Math.max(chartHeight, minHeight);
+      } else {
+        chartHeight = height;
       }
 
-      if (width !== chartWidth || height !== chartHeight) {
+      if (outputWidth !== chartWidth || outputHeight !== chartHeight) {
         this.setState({
-          width: chartWidth,
-          height: chartHeight
+          outputWidth: chartWidth,
+          outputHeight: chartHeight
         });
       }
-    }
-
-
-    renderComponent() {
-      const { width, height } = this.state;
-
-      // merge the sizeSettings with our width and height. sizeSetting can
-      // contain padding, fontsize etc which we don't want to overwrite
-      let sizeSettings = { width: width, height: height };
-
-      // fix: when variable is "" its not overwritten by our value
-      if (height) {
-        sizeSettings.height = height;
-      }
-
-      // fix: when width is given as "" we overwrite it
-      if (!sizeSettings.width) {
-        sizeSettings.width = width;
-      }
-
-      // fix: sometimes given width can be string
-      sizeSettings.width = Number(sizeSettings.width);
-
-      // overwrite the sizeSettings with our sizeSetting version and render the chart
-      return (
-        <WrappedComponent {...this.props} sizeSettings={sizeSettings} />
-      );
-    }
-
-    render() {
-      const { width, height } = this.state;
-      const shouldRenderChart = width !== null && height !== null;
-
-      // with ref we bind the chartContainer to get the width
-      // we only render the chart when we have values for width and height
-      return (
-        <div
-          ref={(e) => { this.chartContainer = e as HTMLDivElement }}
-          className="responsive-wrapper">
-          {shouldRenderChart && this.renderComponent()}
-        </div>
-      )
     }
 
     /**
@@ -163,34 +119,61 @@ const ResizeComponent = () => <OriginalProps extends {}>(WrappedComponent: React
     **/
     parseValue(value: number | string): number | null {
       let result = value;
+
+      // Try to parse string into numerical value
       if (typeof (value) === "string") {
         value = value.trim().toLowerCase();
         let scale = 1.0;
         let cut = 0;
-        let twoCharacters = value.substring(value.length - 2);
-        let oneCharacter = value.substring(value.length - 1);
 
-        if (oneCharacter === "%") {
+        if (value.endsWith("%")) {
           scale = document.body.clientHeight / 100.0;
           cut = 1;
-        } else if (twoCharacters === "vh") {
+        } else if (value.endsWith("vh")) {
           scale = window.innerHeight / 100.0;
           cut = 2;
-        } else if (twoCharacters === "px") {
+        } else if (value.endsWith("px")) {
           cut = 2;
         }
 
         result = Number(value.substring(0, value.length - cut)) * scale;
       }
-      if (typeof (result) === "number") {
+
+      if (typeof (result) === "number" && isFinite(result)) {
         return result;
+      } else{
+        return null;
       }
-      return null;
     }
 
-  }
 
-  return ResizeHOC
-}
+    render() {
+      const { outputWidth, outputHeight } = this.state;
+      const shouldRenderChart = (outputWidth && outputHeight);
+
+      // with ref we bind the chartContainer to get the width
+      // we only render the chart when we have values for width and height
+      // (at startup, those numbers can be 0, or null/undefined in case of errors)
+      return (
+        <div
+          ref={(e) => { this.chartContainer = e as HTMLDivElement }}
+          className="responsive-wrapper">
+          {shouldRenderChart && this.renderComponent()}
+        </div>
+      )
+    }
+
+    renderComponent() {
+      const { outputWidth, outputHeight } = this.state;
+      const sizeSettings = { width: outputWidth, height: outputHeight };
+
+      // overwrite the sizeSettings with our sizeSetting version and render the chart
+      return (
+        <WrappedComponent {...this.props as WrappedComponentProps} sizeSettings={sizeSettings} />
+      );
+    }
+
+
+  };
 
 export default ResizeComponent

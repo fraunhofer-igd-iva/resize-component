@@ -31,6 +31,7 @@ class MyAwesomeChart extends Component {
     }
 
     render() {
+        console.log(this.props);
         return (
             <div ref={inst => {
                 this.container = inst
@@ -39,4 +40,4 @@ class MyAwesomeChart extends Component {
     }
 }
 
-export default ResizeComponent()(MyAwesomeChart);
+export default ResizeComponent(MyAwesomeChart);
