@@ -18,9 +18,7 @@ export type Size = {
 }
 
 // Size settings provided by the caller
-export type SizeSettings = {
-  [key in keyof CompleteSizeSettings]?: CompleteSizeSettings[key];
-};
+export type SizeSettings = Partial<CompleteSizeSettings>;
 
 // Size settings with complete setup
 type CompleteSizeSettings = {
@@ -165,7 +163,7 @@ const ResizeComponent = <WrappedComponentProps extends InjectedProps>(WrappedCom
 
     renderComponent() {
       const { outputWidth, outputHeight } = this.state;
-      const sizeSettings = { width: outputWidth, height: outputHeight };
+      const sizeSettings : Size = { outputWidth, outputHeight };
 
       // overwrite the sizeSettings with our sizeSetting version and render the chart
       return (
