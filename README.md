@@ -88,8 +88,8 @@ Also the following projects use ResizeComponent:
 * [jivacharts][1]
 * [Attribute Relations][2]
 
-  [1]: https://gitbucket.igd.fraunhofer.de/jburmeis/JivaChartsJS
-  [2]: https://gitbucket.igd.fraunhofer.de/jburmeis/AttributeRelations
+  [1]: https://iva-git.igd.fraunhofer.de/jburmeis/JivaChartsJS
+  [2]: https://iva-git.igd.fraunhofer.de/jburmeis/AttributeRelations
 
 
 ### Building, Deployment & Demo App
