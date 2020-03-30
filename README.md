@@ -2,8 +2,12 @@
 
 This React higher order component injects a size information props into a wrapped component.
 
-### Breaking changes from version 1 to 2
-The API has remained the same, but the import and usage is slightly different. See "How to add it to a component".
+## Changelog
+
+* **v3.1.0**: output sizeSettings actually is `{outputHeight: number, outputWidth: number}` as defined in the contract.
+* **v3.0.0**: Undocumented
+* **v2.0.0**: The API has remained the same, but the import and usage is slightly different. See "How to add it to a component".
+
 
 ### Local demo
 
@@ -35,8 +39,8 @@ input
 output
 
     sizeSettings: {
-      height: number, // available height in pixel, can only change when updateHeight is set
-      width: number   // avilable width in pixel, can change
+      outputHeight: number, // available height in pixel, can only change when updateHeight is set
+      outputWidth: number   // avilable width in pixel, can change
     }
 
 
@@ -69,14 +73,17 @@ In the react component, where you use your HOC- chart:
 The sizeSettings will be replaced by the ResizeComponent, and MyAwesomeChart will receive the props sizeSettings = {width: number, height: number}.
 
 ### How to use it with TypeScript
+
+See [Receiver HOC](example-typescript/src/SizeReceiverComponent.tsx) for an dead simple example how to apply the HOC to a component, and [to use the HOCed component](example-typescript/src/App.tsx).
+
 MyAwesomeChart can simply receive and integrate the props from the wrapping ResizeComponent via: 
 
-    import ResizeComponent, {InjectedProps} from "@iva/resize-component";
+    import {default as ResizeComponent, InjectedProps} from "@iva/resize-component";
     ...
     class MyAwesomeChart extends React.Component<MyProps & InjectedProps> {
         ...
     }
-    export default ResizeComponent()(MyAwesomeChart);
+    export default ResizeComponent(MyAwesomeChart);
 
 
 ### Examples
@@ -88,13 +95,14 @@ Also the following projects use ResizeComponent:
 * [jivacharts][1]
 * [Attribute Relations][2]
 
-  [1]: https://gitbucket.igd.fraunhofer.de/jburmeis/JivaChartsJS
-  [2]: https://gitbucket.igd.fraunhofer.de/jburmeis/AttributeRelations
+  [1]: https://iva-git.igd.fraunhofer.de/jburmeis/JivaChartsJS
+  [2]: https://iva-git.igd.fraunhofer.de/jburmeis/AttributeRelations
 
 
 ### Building, Deployment & Demo App
 This repository contains two separate projects: The library and a demo app:
-* Library/ contains the actual library. Build and deploy via tsc --> npm publish
-* Example/ contains a demo for the library. Install and run via npm install --> npm start
+* `Library/` contains the actual library. Build and deploy via tsc --> npm publish
+* `Example/` contains a demo for the library. Install and run via npm install --> npm start
+* `example-typescript/` contains a typescript demo. --> npm start
 
 
