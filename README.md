@@ -5,7 +5,7 @@ This React higher order component injects a size information props into a wrappe
 ## Changelog
 
 * **v3.1.0**: output sizeSettings actually is `{outputHeight: number, outputWidth: number}` as defined in the contract.
-* **v3.0.0**: Undocumented
+* **v3.0.0**: Fixed bugs, improved TypeScript support
 * **v2.0.0**: The API has remained the same, but the import and usage is slightly different. See "How to add it to a component".
 
 
