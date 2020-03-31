@@ -1,29 +1,49 @@
 {
   "name": "@iva/resize-component",
-  "version": "3.1.1",
+  "version": "3.1.2",
   "description": "This React component injects a size information props into a wrapped component",
-  "main": "lib/resize-component.js",
+  "main": "lib-cjs/resize-component.js",
+  "module": "lib/resize-component.js",
   "types": "lib/resize-component.d.ts",
   "publishConfig": {
-    "registry": "https://registry.igd.fraunhofer.de/repository/npm-hosted"
+    "registry": "https://registry.igd.fraunhofer.de/repository/npm-hosted/"
   },
   "repository": {
     "type": "git",
     "url": "https://gitbucket.igd.fraunhofer.de/sreynold/resize-component.git"
   },
-  "author": "Steven Lamarr Reynolds <steven.lamarr.reynolds@igd.fraunhofer.de>, Jan Burmeister <jan.burmeister@igd.fraunhofer.de>",
-  "license": "Fraunhofer IGD",
-  "dependencies": {
-    "utility-types": "3.7.0"
+  "author": {
+    "name": "Steven Lamarr Reynolds",
+    "email": "steven.lamarr.reynolds@igd.fraunhofer.de"
   },
+  "contributors": [
+    {
+      "name": "Steven Lamarr Reynolds",
+      "email": "steven.lamarr.reynolds@igd.fraunhofer.de"
+    },
+    {
+      "name": "Jan Burmeister",
+      "email": "jan.burmeister@igd.fraunhofer.de"
+    }
+  ],
+  "license": "UNLICENSED",
+  "dependencies": {},
   "peerDependencies": {
     "react": "^16.7.0"
   },
   "devDependencies": {
     "@types/react": "16.8.23",
-    "typescript": "3.8.3"
+    "react": "^16.7.0",
+    "rimraf": "^3.0.2",
+    "typescript": "3.8.3",
+    "utility-types": "3.7.0"
   },
   "scripts": {
-    "build": "tsc"
-  }
+    "prebuild": "rimraf lib-cjs/ lib/",
+    "build": "tsc -p . && tsc -p tsconfig.cjs.json"
+  },
+  "files": [
+    "lib",
+    "lib-cjs"
+  ]
 }
