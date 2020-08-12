@@ -1,6 +1,6 @@
 {
   "name": "@iva/resize-component",
-  "version": "4.0.0",
+  "version": "5.0.0",
   "description": "This React component injects a size information props into a wrapped component",
   "main": "lib-cjs/resize-component.js",
   "module": "lib/resize-component.js",
