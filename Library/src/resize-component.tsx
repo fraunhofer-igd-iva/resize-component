@@ -1,18 +1,23 @@
-import React from 'react';
+import * as React from 'react'
 import { Subtract } from 'utility-types';
 
 // Props for the HOC wrapper
 export interface WrapperProps {
-  sizeSettings: SizeSettings;
+  size: SizeSettings;
 }
 
 // Props the HOC adds to the wrapped component
-export interface InjectedProps {
-  sizeSettings: Size;
+export interface SizeProps {
+  size: Size;
+}
+
+export type Size = {
+  width: number;
+  height: number;
 }
 
 // Size injected by the HOC into the wrapped component
-export type Size = {
+export type OutputStateSize = {
   outputWidth: number;
   outputHeight: number;
 }
@@ -28,7 +33,7 @@ type CompleteSizeSettings = {
 };
 
 // Internal state
-type State = CompleteSizeSettings & Size;
+type State = CompleteSizeSettings & OutputStateSize;
 
 // Defaults
 const defaultHeight = 400;
@@ -38,15 +43,16 @@ const defaultSizeSettings: CompleteSizeSettings = {
   updateHeight: true,
 }
 
-const ResizeComponent = <WrappedComponentProps extends InjectedProps>(WrappedComponent: React.ComponentType<WrappedComponentProps>) =>
-  class ResizeHOC extends React.Component<Subtract<WrappedComponentProps, InjectedProps> & WrapperProps, State> {
+const ResizeComponent = <WrappedComponentProps extends SizeProps>(WrappedComponent: React.ComponentType<WrappedComponentProps>) =>
+  class ResizeHOC extends React.Component<Subtract<WrappedComponentProps, SizeProps> & WrapperProps, State> {
+    //@ts-ignore
     chartContainer: HTMLDivElement;
 
-    constructor(props: Subtract<WrappedComponentProps, InjectedProps> & WrapperProps) {
+    constructor(props: Subtract<WrappedComponentProps, SizeProps> & WrapperProps) {
       super(props);
 
       this.state = Object.assign(
-        this.getCompletedState(this.props.sizeSettings),
+        this.getCompletedState(this.props.size),
         {
           outputWidth: 0,
           outputHeight: 0
@@ -61,10 +67,10 @@ const ResizeComponent = <WrappedComponentProps extends InjectedProps>(WrappedCom
 
     componentDidUpdate(prevProps: WrapperProps) {
       // if any prop changed update it
-      if (this.props.sizeSettings.height !== prevProps.sizeSettings.height ||
-        this.props.sizeSettings.minHeight !== prevProps.sizeSettings.minHeight ||
-        this.props.sizeSettings.updateHeight !== prevProps.sizeSettings.updateHeight) {
-        this.setState(this.getCompletedState(this.props.sizeSettings), () => this.updateStateToContainerSize());
+      if (this.props.size.height !== prevProps.size.height ||
+        this.props.size.minHeight !== prevProps.size.minHeight ||
+        this.props.size.updateHeight !== prevProps.size.updateHeight) {
+        this.setState(this.getCompletedState(this.props.size), () => this.updateStateToContainerSize());
       }
     }
 
@@ -139,7 +145,7 @@ const ResizeComponent = <WrappedComponentProps extends InjectedProps>(WrappedCom
 
       if (typeof (result) === "number" && isFinite(result)) {
         return result;
-      } else{
+      } else {
         return null;
       }
     }
@@ -155,7 +161,8 @@ const ResizeComponent = <WrappedComponentProps extends InjectedProps>(WrappedCom
       return (
         <div
           ref={(e) => { this.chartContainer = e as HTMLDivElement }}
-          className="responsive-wrapper">
+          className="responsive-wrapper"
+        >
           {shouldRenderChart && this.renderComponent()}
         </div>
       )
@@ -163,11 +170,11 @@ const ResizeComponent = <WrappedComponentProps extends InjectedProps>(WrappedCom
 
     renderComponent() {
       const { outputWidth, outputHeight } = this.state;
-      const sizeSettings : Size = { outputWidth, outputHeight };
+      const sizeSettings = { width: outputWidth, height: outputHeight };
 
       // overwrite the sizeSettings with our sizeSetting version and render the chart
       return (
-        <WrappedComponent {...this.props as WrappedComponentProps} sizeSettings={sizeSettings} />
+        <WrappedComponent {...this.props as WrappedComponentProps} size={sizeSettings} />
       );
     }
 
