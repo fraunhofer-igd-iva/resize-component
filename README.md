@@ -4,6 +4,7 @@ This React higher order component injects a size information props into a wrappe
 
 ## Changelog
 
+* **v5.0.0**: API change towards simpler variable names (e.g. outputHeight -> height)
 * **v3.1.0**: output sizeSettings actually is `{outputHeight: number, outputWidth: number}` as defined in the contract.
 * **v3.0.0**: Fixed bugs, improved TypeScript support
 * **v2.0.0**: The API has remained the same, but the import and usage is slightly different. See "How to add it to a component".
@@ -28,60 +29,73 @@ This React higher order component injects a size information props into a wrappe
 
 ### What it does
 
-input
+Input (set by the parent component):
 
-    sizeSettings: {
+    size: {
       height?:  string | number,  // can be px, vh or %. Numbers will be interpreted as pixel
       minHeight?: number,         // minimum height in Pixel
       updateHeight?: boolean      // if height should change (only vh or %)
     }
 
-output
+Output (received by the child component):
 
-    sizeSettings: {
-      outputHeight: number, // available height in pixel, can only change when updateHeight is set
-      outputWidth: number   // avilable width in pixel, can change
+    size: {
+      height: number, // available height in pixel, can only change when updateHeight is set
+      width: number   // available width in pixel, can change
     }
 
 
 ### How to add it to a component
 
-write a Wrapper component for your Chart component 'MyAwesomeChart', import the ResizeComponent
+Simple wrap your component 'MyAwesomeChart' with the ResizeComponent. First import the ResizeComponent
 
     import ResizeComponent from "@iva/resize-component";
 
 
-and when exporting your class wrap it
+and when exporting your component wrap it
 
-    export default ResizeComponent()(MyAwesomeChart);
+    export default ResizeComponent(MyAwesomeChart);
 
 
 ### How to use it
 
-In the react component, where you use your HOC- chart:
+In the react component, where you use your chart component:
 
     import "./MyAwesomeChart";
 
     render() {
-        <MyAwesomeChart sizeSettings= {{
+        <MyAwesomeChart size= {{
           height:  string or number, // can be px, vh or %. Numbers will be interpreted as pixel
           minHeight: number, // minimum height in Pixel
           updateHeight: boolean // if height should change (only vh or %)
         }} />
     }
 
-The sizeSettings will be replaced by the ResizeComponent, and MyAwesomeChart will receive the props sizeSettings = {width: number, height: number}.
+The input size property will be replaced by the ResizeComponent, and MyAwesomeChart will receive the props size = {width: number, height: number}.
 
 ### How to use it with TypeScript
 
 See [Receiver HOC](example-typescript/src/SizeReceiverComponent.tsx) for an dead simple example how to apply the HOC to a component, and [to use the HOCed component](example-typescript/src/App.tsx).
 
-MyAwesomeChart can simply receive and integrate the props from the wrapping ResizeComponent via: 
+MyAwesomeChart can simply receive and integrate the props from the wrapping ResizeComponent like this:
 
-    import {default as ResizeComponent, InjectedProps} from "@iva/resize-component";
+Class Component:
+
+    import ResizeComponent, { SizeProps } from "@iva/resize-component";
     ...
-    class MyAwesomeChart extends React.Component<MyProps & InjectedProps> {
+    class MyAwesomeChart extends React.Component<MyProps & SizeProps> {
         ...
+        const { height, width } = this.props.size;
+    }
+    export default ResizeComponent(MyAwesomeChart);
+
+Functional Component:
+
+    import ResizeComponent, { SizeProps } from "@iva/resize-component";
+    ...
+    const MyAwesomeChart:FC<MyProps & SizeProps> = props => {
+        ...
+        const { height, width } = props.size;
     }
     export default ResizeComponent(MyAwesomeChart);
 
