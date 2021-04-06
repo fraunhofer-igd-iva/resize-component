@@ -1,7 +1,0 @@
-node_modules/
-src/
-*.sublime-workspace
-*.sublime-project
-package-lock.json
-tsconfig.cjs.json
-tsconfig.json
