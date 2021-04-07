@@ -3,7 +3,7 @@ import ResizeObserver from 'resize-observer-polyfill';
 
 export type ComponentSize = { width: number, height: number };
 
-const useResizeObserver = () => {
+export const useResizeObserver = () => {
     const [elemToObserve, setElemToObserve] = useState<HTMLElement | undefined>(undefined);
     const [observerEntry, setObserverEntry] = useState<ResizeObserverEntry | null>();
     const observer = useRef<ResizeObserver | null>(null);
@@ -29,5 +29,3 @@ const useResizeObserver = () => {
 
     return [setElemToObserve, sizeReturn] as const;
 };
-
-export default useResizeObserver;

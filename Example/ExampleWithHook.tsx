@@ -4,7 +4,7 @@
  */
 
 import React, { FC } from 'react';
-import { useResizeObserver } from '@iva/resize-component';
+import { useResizeObserver } from '../resize';
 
 const ExampleWithHook: FC = () => {
   const [ref, size] = useResizeObserver();

@@ -4,7 +4,7 @@
  */
 
 import React, { FC } from 'react';
-import { ResizeComponent, SizeProps } from '@iva/resize-component';
+import { ResizeComponent, SizeProps } from '../resize';
 
 interface ComponentProps {
   color: string;
