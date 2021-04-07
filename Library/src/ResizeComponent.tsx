@@ -20,7 +20,11 @@ export function ResizeComponent<P>(WrappedComponent: React.ComponentType<P & Siz
     const { height, width } = props.size;
 
     return (
-      <div ref={ref as any} style={{ height: height, width: width ?? "100%" }}>
+      <div
+        ref={ref as any}
+        className="responsive-wrapper"
+        style={{ height: height, width: width ?? "100%" }}
+      >
         <WrappedComponent {...props} size={size} />
       </div>
     );
