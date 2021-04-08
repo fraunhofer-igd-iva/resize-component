@@ -22,9 +22,12 @@ export const useResizeObserver = () => {
         return () => disconnect();
     }, [disconnect, observe]);
 
-    const sizeReturn: ComponentSize = {
-        width: observerEntry ? observerEntry.contentRect.width : 0,
-        height: observerEntry ? observerEntry.contentRect.height : 0,
+    let sizeReturn: ComponentSize | undefined = undefined;
+    if (observerEntry) {
+        sizeReturn = {
+            width: observerEntry.contentRect.width,
+            height: observerEntry.contentRect.height,
+        }
     };
 
     return [setElemToObserve, sizeReturn] as const;
