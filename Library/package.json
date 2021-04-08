@@ -1,10 +1,10 @@
 {
   "name": "@iva/resize-component",
-  "version": "5.0.0",
+  "version": "6.0.0",
   "description": "This React component injects a size information props into a wrapped component",
-  "main": "lib-cjs/resize-component.js",
-  "module": "lib/resize-component.js",
-  "types": "lib/resize-component.d.ts",
+  "main": "lib-cjs/index.js",
+  "module": "lib/index.js",
+  "types": "lib/index.d.ts",
   "publishConfig": {
     "registry": "https://registry.igd.fraunhofer.de/repository/npm-hosted/"
   },
@@ -27,20 +27,22 @@
     }
   ],
   "license": "UNLICENSED",
-  "dependencies": {},
+  "dependencies": {
+    "resize-observer-polyfill": "^1.5.1"
+  },
   "peerDependencies": {
-    "react": "^16.7.0"
+    "react": "^17"
   },
   "devDependencies": {
-    "@types/react": "16.8.23",
-    "react": "^16.7.0",
+    "@types/react": "^17",
+    "react": "^17",
     "rimraf": "^3.0.2",
-    "typescript": "3.8.3",
-    "utility-types": "3.7.0"
+    "typescript": "4.2.3",
+    "utility-types": "3.10.0"
   },
   "scripts": {
     "prebuild": "rimraf lib-cjs/ lib/",
-    "build": "tsc -p . && tsc -p tsconfig.cjs.json"
+    "build": "tsc -p tsconfig.json && tsc -p tsconfig.cjs.json"
   },
   "files": [
     "lib",

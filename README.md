@@ -1,122 +1,98 @@
-## Resize Component
+# Resize Component
 
-This React higher order component injects a size information props into a wrapped component.
+This library provides two React components that provide size information of a wrapped or referenced component.
+* **ResizeComponent**: Wraps a component into a `<div>` container and injects the size information of the container as props into the wrapped component. Optionally provide width and height properties for the container. This can be used to set the container's size in (responsive) CSS format, and pass numeric values in pixels to an SVG chart.
+* **useResizeObserver Hook**: Provides the size information via a React hook. Can be used on any `ref`. 
+
+## Examples
+See explanations below, or code examples in `/Example`
 
 ## Changelog
 
+* **v6.0.0**: API change, use of ResizeObserver API instead of event listener on 'window'
 * **v5.0.0**: API change towards simpler variable names (e.g. outputHeight -> height)
 * **v3.1.0**: output sizeSettings actually is `{outputHeight: number, outputWidth: number}` as defined in the contract.
 * **v3.0.0**: Fixed bugs, improved TypeScript support
 * **v2.0.0**: The API has remained the same, but the import and usage is slightly different. See "How to add it to a component".
 
-
-### Local demo
-
-1. Clone this project (```git clone <url>```) or download this project as .zip (Repository -> Files -> Dowload zip)
-2. Install required node modules with:
-
-    ```bash
-    $ npm install
-    ```
-
-3. To view the demo, start the NPM server with:
-
-    ```bash
-    $ npm start
-    ```
-
-4. You then can change height and width to see what it does.
-
-### What it does
-
-Input (set by the parent component):
-
+## ResizeComponent
+Input Props (set by the parent component):
+```javascript
     size: {
-      height?:  string | number,  // can be px, vh or %. Numbers will be interpreted as pixel
-      minHeight?: number,         // minimum height in Pixel
-      updateHeight?: boolean      // if height should change (only vh or %)
+      height?: string | number,  // CSS format
+      width?:  string | number,  // CSS format (defaults to '100%')
     }
+```
 
-Output (received by the child component):
-
+Injected Props (received by the child component):
+```javascript
     size: {
-      height: number, // available height in pixel, can only change when updateHeight is set
-      width: number   // available width in pixel, can change
+      height: number,  // height in pixel
+      width:  number,  // width in pixel
     }
+```
 
 
 ### How to add it to a component
+Simply wrap your component 'MyAwesomeChart' with the ResizeComponent. First import the ResizeComponent
+```javascript
+import { ResizeComponent } from "@iva/resize-component";
 
-Simple wrap your component 'MyAwesomeChart' with the ResizeComponent. First import the ResizeComponent
+const MyAwesomeChart = (props) => {
+    // Injected props from ResizeComponent:
+    const { height, width } = props.size;
+    ...
+}
 
-    import ResizeComponent from "@iva/resize-component";
+// Export the component wrapped like this 
+export default ResizeComponent(MyAwesomeChart);
+```
 
-
-and when exporting your component wrap it
-
-    export default ResizeComponent(MyAwesomeChart);
-
-
-### How to use it
-
-In the react component, where you use your chart component:
-
-    import "./MyAwesomeChart";
+### How to use a wrapped component
+```javascript
+import "./MyAwesomeChart";
 
     render() {
-        <MyAwesomeChart size= {{
-          height:  string or number, // can be px, vh or %. Numbers will be interpreted as pixel
-          minHeight: number, // minimum height in Pixel
-          updateHeight: boolean // if height should change (only vh or %)
-        }} />
+        <MyAwesomeChart size = {{ height: "20vh" }} />
     }
-
+```
 The input size property will be replaced by the ResizeComponent, and MyAwesomeChart will receive the props size = {width: number, height: number}.
 
 ### How to use it with TypeScript
+#### Class Component:
+```javascript
+import { ResizeComponent, SizeProps } from "@iva/resize-component";
 
-See [Receiver HOC](example-typescript/src/SizeReceiverComponent.tsx) for an dead simple example how to apply the HOC to a component, and [to use the HOCed component](example-typescript/src/App.tsx).
-
-MyAwesomeChart can simply receive and integrate the props from the wrapping ResizeComponent like this:
-
-Class Component:
-
-    import ResizeComponent, { SizeProps } from "@iva/resize-component";
+class MyAwesomeChart extends React.Component<MyProps & SizeProps> {
+    const { height, width } = this.props.size;
     ...
-    class MyAwesomeChart extends React.Component<MyProps & SizeProps> {
-        ...
-        const { height, width } = this.props.size;
-    }
-    export default ResizeComponent(MyAwesomeChart);
+}
+export default ResizeComponent(MyAwesomeChart);
+```
 
-Functional Component:
+#### Functional Component:
+```javascript
+import { ResizeComponent, SizeProps } from "@iva/resize-component";
 
-    import ResizeComponent, { SizeProps } from "@iva/resize-component";
+const MyAwesomeChart:FC<MyProps & SizeProps> = props => {
+    const { height, width } = props.size;
     ...
-    const MyAwesomeChart:FC<MyProps & SizeProps> = props => {
-        ...
-        const { height, width } = props.size;
-    }
-    export default ResizeComponent(MyAwesomeChart);
+}
+export default ResizeComponent(MyAwesomeChart);
+```
 
+## useResizeObserver
+Simply add as hook into a component, and provide a `ref` like this:
 
-### Examples
+```javascript
+import { useResizeObserver } from '@iva/resize-component';
 
-You can find an example for the wrapper component in ```examples/src/wrapper-example.js```.
+const ExampleWithHook: FC = () => {
+  const [ref, size] = useResizeObserver();
+  const {width, height} = size;
 
-Also the following projects use ResizeComponent:
-
-* [jivacharts][1]
-* [Attribute Relations][2]
-
-  [1]: https://iva-git.igd.fraunhofer.de/jburmeis/JivaChartsJS
-  [2]: https://iva-git.igd.fraunhofer.de/jburmeis/AttributeRelations
-
-
-### Building, Deployment & Demo App
-This repository contains two separate projects: The library and a demo app:
-* `Library/` contains the actual library. Build and deploy via tsc --> npm publish
-* `Example/` contains a demo for the library. Install and run via npm install --> npm start
-* `example-typescript/` contains a typescript demo. --> npm start
-
-
+  return (
+    <div ref={ref as any} />
+  )
+}
+```
