@@ -25,7 +25,7 @@ export function ResizeComponent<P>(WrappedComponent: React.ComponentType<P & Siz
         className="responsive-wrapper"
         style={{ height: height, width: width ?? "100%" }}
       >
-        <WrappedComponent {...props} size={size} />
+        {size && <WrappedComponent {...props} size={size} />}
       </div>
     );
   };
