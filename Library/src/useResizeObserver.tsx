@@ -25,8 +25,8 @@ export const useResizeObserver = () => {
     let sizeReturn: ComponentSize | undefined = undefined;
     if (observerEntry) {
         sizeReturn = {
-            width: observerEntry.contentRect.width,
-            height: observerEntry.contentRect.height,
+            width: Math.floor(observerEntry.contentRect.width),
+            height: Math.floor(observerEntry.contentRect.height),
         }
     };
 

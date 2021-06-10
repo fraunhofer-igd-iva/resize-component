@@ -1,6 +1,6 @@
 {
   "name": "@iva/resize-component",
-  "version": "6.0.1",
+  "version": "6.0.2",
   "description": "This React component injects a size information props into a wrapped component",
   "main": "lib-cjs/index.js",
   "module": "lib/index.js",
@@ -28,7 +28,7 @@
   ],
   "license": "UNLICENSED",
   "dependencies": {
-    "resize-observer-polyfill": "^1.5.1"
+    "resize-observer-polyfill": "1.5.1"
   },
   "peerDependencies": {
     "react": "^17"
