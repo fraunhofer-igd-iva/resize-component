@@ -4,6 +4,12 @@ This library provides two React components that provide size information of a wr
 * **ResizeComponent**: Wraps a component into a `<div>` container and injects the size information of the container as props into the wrapped component. Optionally provide width and height properties for the container. This can be used to set the container's size in (responsive) CSS format, and pass numeric values in pixels to an SVG chart.
 * **useResizeObserver Hook**: Provides the size information via a React hook. Can be used on any `ref`. 
 
+## Installation
+You can install it with
+```bash
+npm i @iva/resize-component --save
+```
+
 ## Examples
 See explanations below, or code examples in `/Example`
 
