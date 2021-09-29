@@ -47,6 +47,7 @@
   },
   "files": [
     "lib",
-    "lib-cjs"
+    "lib-cjs",
+    "src/"
   ]
 }
