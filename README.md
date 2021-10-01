@@ -11,10 +11,16 @@ npm i @iva/resize-component --save
 ```
 
 ## Examples
+
 See explanations below, or code examples in `/Example`
+
 
 ## Changelog
 
+* **v6.0.4**: added /src folder to fix unresolved sourcemap
+* **v6.0.3**: fix repo path in package.json
+* **v6.0.2**: useResizeObserver now returns floored integer values
+* **v6.0.1**: Initial Observer size is now undefined instead of (0,0)
 * **v6.0.0**: API change, use of ResizeObserver API instead of event listener on 'window'
 * **v5.0.0**: API change towards simpler variable names (e.g. outputHeight -> height)
 * **v3.1.0**: output sizeSettings actually is `{outputHeight: number, outputWidth: number}` as defined in the contract.
