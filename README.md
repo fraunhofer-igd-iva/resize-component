@@ -53,7 +53,7 @@ import { ResizeComponent } from "@iva/resize-component";
 const MyAwesomeChart = (props) => {
     // Injected props from ResizeComponent:
     const { height, width } = props.size;
-    ...
+    // ...
 }
 
 // Export the component wrapped like this 
@@ -77,7 +77,7 @@ import { ResizeComponent, SizeProps } from "@iva/resize-component";
 
 class MyAwesomeChart extends React.Component<MyProps & SizeProps> {
     const { height, width } = this.props.size;
-    ...
+    // ...
 }
 export default ResizeComponent(MyAwesomeChart);
 ```
@@ -88,7 +88,7 @@ import { ResizeComponent, SizeProps } from "@iva/resize-component";
 
 const MyAwesomeChart:FC<MyProps & SizeProps> = props => {
     const { height, width } = props.size;
-    ...
+    // ...
 }
 export default ResizeComponent(MyAwesomeChart);
 ```
@@ -107,4 +107,10 @@ const ExampleWithHook: FC = () => {
     <div ref={ref as any} />
   )
 }
+```
+
+If you want the size to not be `undefined` initially, you can also specify default values before the size is observed:
+
+```javascript
+const [ref, observedSize = { width: 1000, height: 1000 }] = useResizeObserver();
 ```
