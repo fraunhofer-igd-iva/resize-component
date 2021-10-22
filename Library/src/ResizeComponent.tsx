@@ -7,7 +7,7 @@ export type SizeProps = {
 };
 
 // Props that only the ResizeComponent will receive
-type ResizeComponentProps = {
+export type ResizeComponentProps = {
   size: {
     height?: number | string;
     width?: number | string;
