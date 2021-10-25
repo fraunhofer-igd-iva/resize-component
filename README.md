@@ -17,6 +17,7 @@ See explanations below, or code examples in `/Example`
 
 ## Changelog
 
+* **v6.1.0**: Added export for ResizeComponentProps to enable wrapping of ResizeComponents
 * **v6.0.4**: added /src folder to fix unresolved sourcemap
 * **v6.0.3**: fix repo path in package.json
 * **v6.0.2**: useResizeObserver now returns floored integer values
@@ -91,6 +92,20 @@ const MyAwesomeChart:FC<MyProps & SizeProps> = props => {
     // ...
 }
 export default ResizeComponent(MyAwesomeChart);
+```
+
+#### Wrap and expose a resize-component
+
+To wrap a ResizeComponent and expose its input types, you can use the type `ResizeComponentProps` similar to the pseudocode below:
+
+```typescript
+const X = (props: XProps & SizeProps) => (<>...</>);
+const Y = ResizeComponent(X)
+
+const Z = ({size, ...other} : ZProps & ResizeComponentProps ) => {
+    return <Y size={size} />;
+}
+
 ```
 
 ## useResizeObserver
