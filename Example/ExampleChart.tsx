@@ -4,7 +4,7 @@
  */
 
 import React, { FC } from 'react';
-import { ResizeComponent, SizeProps } from '../resize';
+import { ResizeComponent, SizeProps } from '../Library';
 
 interface ComponentProps {
   color: string;
