@@ -17,6 +17,7 @@ See explanations below, or code examples in `/Example`
 
 ## Changelog
 
+* **v6.1.1**: Fixed type in useResizeComponent to remove cast to any
 * **v6.1.0**: Added export for ResizeComponentProps to enable wrapping of ResizeComponents
 * **v6.0.4**: added /src folder to fix unresolved sourcemap
 * **v6.0.3**: fix repo path in package.json
@@ -119,7 +120,7 @@ const ExampleWithHook: FC = () => {
   const {width, height} = size;
 
   return (
-    <div ref={ref as any} />
+    <div ref={ref} />
   )
 }
 ```

@@ -4,7 +4,7 @@ import ResizeObserver from 'resize-observer-polyfill';
 export type ComponentSize = { width: number, height: number };
 
 export const useResizeObserver = () => {
-    const [elemToObserve, setElemToObserve] = useState<HTMLElement | undefined>(undefined);
+    const [elemToObserve, setElemToObserve] = useState<HTMLElement | null>(null);
     const [observerEntry, setObserverEntry] = useState<ResizeObserverEntry | null>();
     const observer = useRef<ResizeObserver | null>(null);
 

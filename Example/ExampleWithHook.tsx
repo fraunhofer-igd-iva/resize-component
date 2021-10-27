@@ -4,13 +4,13 @@
  */
 
 import React, { FC } from 'react';
-import { useResizeObserver } from '../resize';
+import { useResizeObserver } from '../Library';
 
 const ExampleWithHook: FC = () => {
   const [ref, size] = useResizeObserver();
 
   return (
-    <div ref={ref as any} style={{ borderStyle: "solid", borderColor: "orange"}}>
+    <div ref={ref} style={{ borderStyle: "solid", borderColor: "orange"}}>
       <p>Width: {size.width}</p>
       <p>Height: {size.height}</p>
     </div>
