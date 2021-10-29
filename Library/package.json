@@ -47,7 +47,8 @@
   },
   "scripts": {
     "prebuild": "rimraf lib-cjs/ lib/",
-    "build": "tsc -p tsconfig.json && tsc -p tsconfig.cjs.json"
+    "build": "tsc -p tsconfig.json && tsc -p tsconfig.cjs.json",
+    "prepublishOnly": "npm run build"
   },
   "files": [
     "lib",
