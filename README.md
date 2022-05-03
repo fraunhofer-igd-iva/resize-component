@@ -17,7 +17,7 @@ See explanations below, or code examples in `/Example`
 
 ## Changelog
 
-* **v6.1.2**: Fixed prepublish script to build before publishing
+* **v6.1.2**: Fixed prepublish script to build before publishing, Update dependencies for React 18
 * **v6.1.1**: Fixed type in useResizeComponent to remove cast to any
 * **v6.1.0**: Added export for ResizeComponentProps to enable wrapping of ResizeComponents
 * **v6.0.4**: added /src folder to fix unresolved sourcemap
