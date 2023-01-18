@@ -10,6 +10,12 @@ You can install it with
 npm i @iva/resize-component --save
 ```
 
+If you receive a 404 Error: Not Found, you can run:
+
+```bash
+npm login --scope=@iva --registry=https://registry.igd.fraunhofer.de/repository/npm-all/ --auth-type=legacy
+```
+
 ## Examples
 
 See explanations below, or code examples in `/Example`
