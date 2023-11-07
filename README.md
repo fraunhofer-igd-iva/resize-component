@@ -23,6 +23,7 @@ See explanations below, or code examples in `/Example`
 
 ## Changelog
 
+* **v6.2.0**: Added optional parameter `box` to `useResizeObserver` to enable getting the border box of a ref.
 * **v6.1.2**: Fixed prepublish script to build before publishing, Update dependencies for React 18
 * **v6.1.1**: Fixed type in useResizeComponent to remove cast to any
 * **v6.1.0**: Added export for ResizeComponentProps to enable wrapping of ResizeComponents
@@ -77,7 +78,7 @@ import "./MyAwesomeChart";
         <MyAwesomeChart size = {{ height: "20vh" }} />
     }
 ```
-The input size property will be replaced by the ResizeComponent, and MyAwesomeChart will receive the props size = {width: number, height: number}.
+The input size property will be replaced by the ResizeComponent, and MyAwesomeChart will receive the props `size = {width: number, height: number}`. Be aware, that you might run into race conditions, when you use a relative size, such as `height: "80%"` and similar, if no parent container restricts growth. See FAQ for more details.
 
 ### How to use it with TypeScript
 #### Class Component:
@@ -136,4 +137,94 @@ If you want the size to not be `undefined` initially, you can also specify defau
 
 ```javascript
 const [ref, observedSize = { width: 1000, height: 1000 }] = useResizeObserver();
+```
+
+## Monitor the border box size of a ref
+
+Simply add as hook into a component, and provide a `ref` like this:
+
+```javascript
+import { useResizeObserver } from '@iva/resize-component';
+
+const ExampleWithHook: FC = () => {
+  const [ref, size] = useResizeObserver("border-box");
+  const {width, height} = size;
+
+  return (
+    <div ref={ref} />
+  )
+}
+```
+
+
+# FAQ
+
+## 1. My container grows indefinitly. What can I do?
+
+If you have given something like `size={{ height: "100%"}}` to your component, and it grows and grows and grows, then the reason might be, that the outside container can grow, too. Hence, the solution is to restrict growth.
+```tsx
+export const Chart = (props: ComponentProps & SizeProps) => {
+  const d3Container = useRef<SVGSVGElement>(null);
+        
+  // much code here
+  return (<svg
+    width={props.size.width}
+    height={props.size.height}
+    ref={d3Container}
+    xmlns="http://www.w3.org/2000/svg"
+    version="1.1"
+  />);
+}
+
+export const ResponsiveChart = ResizeComponent(Chart);
+
+export const App = ()=> {
+  return (<div style={{height: "100%"}}>
+    <ResponsiveChart size={{}}/>
+  </div>);
+}
+```
+
+Solution: Ensure that the height is "bounded" somehow. This means, that you should not use `%` as a css measure in either the wrapping container, nor in the `size` prop.
+
+
+```diff
+export const App = ()=> {
+-  return (<div>
++  return (<div style={{height: "500px"}}>)
+    <ResponsiveChart size={{}}/>
+  </div>);
+}
+```
+
+```diff
+export const App = ()=> {
+  return (<div>
+-    <ResponsiveChart size={{}}/>
++    <ResponsiveChart size={{height: "50em"}}/>
+  </div>);
+}
+```
+
+### A more elaborate example which uses mui.com
+
+Lets assume that `Card` has a height and width assigned from somewhere. Hence, the `Card` is rendered with a fixed size. However, our ResponsiveChart would grow, unless we fix the `CardContent` height. To make CardContent fit the container, we use the resizeobserver to monitor the header size and then substract that value from the `CardContent` 
+
+```tsx
+const WidgetContainer = ({ content, layout, title = "", endAdornment }: LayoutWidget)  => {
+    const [headerRef, headerSize] = useResizeObserver('border-box');
+
+    return <div key={layout.i} data-grid={layout}>
+        <Card>
+            <CardHeader title={title} action={<Button>Hit me</Button>} ref={headerRef} />
+            <CardContent sx={{
+                height: `calc(100% - ${headerSize?.height || 0}px)`,
+            }}>
+                <ResponsiveChart size={{
+                  /* no need to provide these because CardContent limits growth for us.*/
+                }}/>
+            </CardContent>
+        </Card>
+    </div>
+}
 ```
