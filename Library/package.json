@@ -1,17 +1,14 @@
 {
   "name": "@iva/resize-component",
   "version": "6.1.2",
-  "description": "This React component injects a size information props into a wrapped component",
+  "description": "This React component injects a size information props into a wrapped component.",
   "main": "lib-cjs/index.js",
   "module": "lib/index.js",
   "types": "lib/index.d.ts",
-  "homepage": "https://iva-git.igd.fraunhofer.de/sreynold/resize-component",
-  "publishConfig": {
-    "registry": "https://registry.igd.fraunhofer.de/repository/npm-hosted/"
-  },
+  "homepage": "https://github.com/fraunhofer-igd-iva/resize-component",
   "repository": {
     "type": "git",
-    "url": "https://iva-git.igd.fraunhofer.de/sreynold/resize-component.git"
+    "url": "https://github.com/fraunhofer-igd-iva/resize-component"
   },
   "author": {
     "name": "Steven Lamarr Reynolds",
@@ -31,7 +28,7 @@
       "email": "hendrik.luecke-tieke@igd.fraunhofer.de"
     }
   ],
-  "license": "UNLICENSED",
+  "license": "Apache-2.0",
   "dependencies": {
     "resize-observer-polyfill": "1.5.1"
   },

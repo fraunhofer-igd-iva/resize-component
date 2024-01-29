@@ -1,11 +1,15 @@
 # Resize Component
 
 This library provides two React components that provide size information of a wrapped or referenced component.
+
 * **ResizeComponent**: Wraps a component into a `<div>` container and injects the size information of the container as props into the wrapped component. Optionally provide width and height properties for the container. This can be used to set the container's size in (responsive) CSS format, and pass numeric values in pixels to an SVG chart.
-* **useResizeObserver Hook**: Provides the size information via a React hook. Can be used on any `ref`. 
+
+* **useResizeObserver Hook**: Provides the size information via a React hook. Can be used on any `ref`.
 
 ## Installation
+
 You can install it with
+
 ```bash
 npm i @iva/resize-component --save
 ```
@@ -20,25 +24,10 @@ npm login --scope=@iva --registry=https://registry.igd.fraunhofer.de/repository/
 
 See explanations below, or code examples in `/Example`
 
-
-## Changelog
-
-* **v6.2.0**: Added optional parameter `box` to `useResizeObserver` to enable getting the border box of a ref.
-* **v6.1.2**: Fixed prepublish script to build before publishing, Update dependencies for React 18
-* **v6.1.1**: Fixed type in useResizeComponent to remove cast to any
-* **v6.1.0**: Added export for ResizeComponentProps to enable wrapping of ResizeComponents
-* **v6.0.4**: added /src folder to fix unresolved sourcemap
-* **v6.0.3**: fix repo path in package.json
-* **v6.0.2**: useResizeObserver now returns floored integer values
-* **v6.0.1**: Initial Observer size is now undefined instead of (0,0)
-* **v6.0.0**: API change, use of ResizeObserver API instead of event listener on 'window'
-* **v5.0.0**: API change towards simpler variable names (e.g. outputHeight -> height)
-* **v3.1.0**: output sizeSettings actually is `{outputHeight: number, outputWidth: number}` as defined in the contract.
-* **v3.0.0**: Fixed bugs, improved TypeScript support
-* **v2.0.0**: The API has remained the same, but the import and usage is slightly different. See "How to add it to a component".
-
 ## ResizeComponent
+
 Input Props (set by the parent component):
+
 ```javascript
     size: {
       height?: string | number,  // CSS format
@@ -47,6 +36,7 @@ Input Props (set by the parent component):
 ```
 
 Injected Props (received by the child component):
+
 ```javascript
     size: {
       height: number,  // height in pixel
@@ -54,9 +44,10 @@ Injected Props (received by the child component):
     }
 ```
 
-
 ### How to add it to a component
+
 Simply wrap your component 'MyAwesomeChart' with the ResizeComponent. First import the ResizeComponent
+
 ```javascript
 import { ResizeComponent } from "@iva/resize-component";
 
@@ -71,6 +62,7 @@ export default ResizeComponent(MyAwesomeChart);
 ```
 
 ### How to use a wrapped component
+
 ```javascript
 import "./MyAwesomeChart";
 
@@ -78,10 +70,13 @@ import "./MyAwesomeChart";
         <MyAwesomeChart size = {{ height: "20vh" }} />
     }
 ```
+
 The input size property will be replaced by the ResizeComponent, and MyAwesomeChart will receive the props `size = {width: number, height: number}`. Be aware, that you might run into race conditions, when you use a relative size, such as `height: "80%"` and similar, if no parent container restricts growth. See FAQ for more details.
 
 ### How to use it with TypeScript
-#### Class Component:
+
+#### Class Component
+
 ```javascript
 import { ResizeComponent, SizeProps } from "@iva/resize-component";
 
@@ -92,7 +87,8 @@ class MyAwesomeChart extends React.Component<MyProps & SizeProps> {
 export default ResizeComponent(MyAwesomeChart);
 ```
 
-#### Functional Component:
+#### Functional Component
+
 ```javascript
 import { ResizeComponent, SizeProps } from "@iva/resize-component";
 
@@ -118,6 +114,7 @@ const Z = ({size, ...other} : ZProps & ResizeComponentProps ) => {
 ```
 
 ## useResizeObserver
+
 Simply add as hook into a component, and provide a `ref` like this:
 
 ```javascript
@@ -156,12 +153,12 @@ const ExampleWithHook: FC = () => {
 }
 ```
 
+## FAQ
 
-# FAQ
-
-## 1. My container grows indefinitly. What can I do?
+### 1. My container grows indefinitly. What can I do?
 
 If you have given something like `size={{ height: "100%"}}` to your component, and it grows and grows and grows, then the reason might be, that the outside container can grow, too. Hence, the solution is to restrict growth.
+
 ```tsx
 export const Chart = (props: ComponentProps & SizeProps) => {
   const d3Container = useRef<SVGSVGElement>(null);
@@ -187,7 +184,6 @@ export const App = ()=> {
 
 Solution: Ensure that the height is "bounded" somehow. This means, that you should not use `%` as a css measure in either the wrapping container, nor in the `size` prop.
 
-
 ```diff
 export const App = ()=> {
 -  return (<div>
@@ -208,7 +204,7 @@ export const App = ()=> {
 
 ### A more elaborate example which uses mui.com
 
-Lets assume that `Card` has a height and width assigned from somewhere. Hence, the `Card` is rendered with a fixed size. However, our ResponsiveChart would grow, unless we fix the `CardContent` height. To make CardContent fit the container, we use the resizeobserver to monitor the header size and then substract that value from the `CardContent` 
+Lets assume that `Card` has a height and width assigned from somewhere. Hence, the `Card` is rendered with a fixed size. However, our ResponsiveChart would grow, unless we fix the `CardContent` height. To make CardContent fit the container, we use the resizeobserver to monitor the header size and then substract that value from the `CardContent`.
 
 ```tsx
 const WidgetContainer = ({ content, layout, title = "", endAdornment }: LayoutWidget)  => {
@@ -228,3 +224,27 @@ const WidgetContainer = ({ content, layout, title = "", endAdornment }: LayoutWi
     </div>
 }
 ```
+
+## Changelog
+
+* **v6.2.0**: Added optional parameter `box` to `useResizeObserver` to enable getting the border box of a ref.
+* **v6.1.2**: Fixed prepublish script to build before publishing, Update dependencies for React 18
+* **v6.1.1**: Fixed type in useResizeComponent to remove cast to any
+* **v6.1.0**: Added export for ResizeComponentProps to enable wrapping of ResizeComponents
+* **v6.0.4**: added /src folder to fix unresolved sourcemap
+* **v6.0.3**: fix repo path in package.json
+* **v6.0.2**: useResizeObserver now returns floored integer values
+* **v6.0.1**: Initial Observer size is now undefined instead of (0,0)
+* **v6.0.0**: API change, use of ResizeObserver API instead of event listener on 'window'
+* **v5.0.0**: API change towards simpler variable names (e.g. outputHeight -> height)
+* **v3.1.0**: output sizeSettings actually is `{outputHeight: number, outputWidth: number}` as defined in the contract.
+* **v3.0.0**: Fixed bugs, improved TypeScript support
+* **v2.0.0**: The API has remained the same, but the import and usage is slightly different. See "How to add it to a component".
+
+## License
+
+This project is licensed under Apache-2.0.
+
+## Contributions
+
+We appreciate all contributions. For bigger changes please open an issue first to discuss it.
