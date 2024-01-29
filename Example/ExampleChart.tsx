@@ -10,14 +10,14 @@ interface ComponentProps {
   color: string;
 }
 
-const ExampleChart: FC<ComponentProps & SizeProps> = (props) => {
+function ExampleChart(props: ComponentProps & SizeProps) {
   const { width, height } = props.size;
 
   return (
     <svg width={width} height={height}>
       <rect x={0} y={0} width={width} height={height} fill={props.color} />
     </svg>
-  )
+  );
 }
 
 export default ResizeComponent(ExampleChart);

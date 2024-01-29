@@ -2,7 +2,7 @@ import React, { FC } from 'react';
 import ExampleChart from './ExampleChart';
 import ExampleWithHook from './ExampleWithHook';
 
-const Example: FC = () => {
+function Example() {
   return (
     <>
       <h2>Example: ResizeComponent</h2>
@@ -11,7 +11,7 @@ const Example: FC = () => {
       <h2>Example: onResizeObserver hook</h2>
       <ExampleWithHook />
     </>
-  )
+  );
 }
 
 export default Example;
