@@ -11,13 +11,7 @@ This library provides two React components that provide size information of a wr
 You can install it with
 
 ```bash
-npm i @iva/resize-component --save
-```
-
-If you receive a 404 Error: Not Found, you can run:
-
-```bash
-npm login --scope=@iva --registry=https://registry.igd.fraunhofer.de/repository/npm-all/ --auth-type=legacy
+npm i @igd-iva/resize-component --save
 ```
 
 ## Examples
@@ -227,6 +221,7 @@ const WidgetContainer = ({ content, layout, title = "", endAdornment }: LayoutWi
 
 ## Changelog
 
+* **v6.3.0**: Changed branch to main. Changed publication repository to npm.
 * **v6.2.0**: Added optional parameter `box` to `useResizeObserver` to enable getting the border box of a ref.
 * **v6.1.2**: Fixed prepublish script to build before publishing, Update dependencies for React 18
 * **v6.1.1**: Fixed type in useResizeComponent to remove cast to any
