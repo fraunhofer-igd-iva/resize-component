@@ -10,7 +10,6 @@ export const useResizeObserver = (box: "content-box" | "border-box" = "content-b
 
     const disconnect = useCallback(() => observer.current?.disconnect(), []);
     const observe = useCallback(() => {
-        // @ts-ignore
         observer.current = new ResizeObserver(([entry]) => setObserverEntry(entry));
         if (elemToObserve) {
             observer.current.observe(elemToObserve);
