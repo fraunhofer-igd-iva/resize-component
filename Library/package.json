@@ -43,7 +43,7 @@
     "utility-types": "3.10.0"
   },
   "scripts": {
-    "prebuild": "rimraf lib-cjs/ lib/",
+    "prebuild": "npx rimraf lib-cjs/ lib/",
     "build": "tsc -p tsconfig.json && tsc -p tsconfig.cjs.json",
     "prepublishOnly": "npm run build"
   },
