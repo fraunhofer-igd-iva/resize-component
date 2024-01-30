@@ -14,7 +14,7 @@ jobs:
           node-version: 18
           registry-url: 'https://registry.npmjs.org'
       - name: Publish package on NPM
-        run:
+        run: |
           cd Library
           npm publish
         env:
