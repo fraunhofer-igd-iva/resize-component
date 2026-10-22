@@ -1,6 +1,6 @@
 {
   "name": "@igd-iva/resize-component",
-  "version": "6.3.0",
+  "version": "6.4.0",
   "description": "This React component injects a size information props into a wrapped component.",
   "main": "lib-cjs/index.js",
   "module": "lib/index.js",
@@ -11,13 +11,13 @@
     "url": "https://github.com/fraunhofer-igd-iva/resize-component"
   },
   "author": {
-    "name": "Steven Lamarr Reynolds",
-    "email": "steven.lamarr.reynolds@igd.fraunhofer.de"
+    "name": "Steven Lamarr Reynolds-Ringer",
+    "email": "steven.lamarr.reynolds-ringer@igd.fraunhofer.de"
   },
   "contributors": [
     {
-      "name": "Steven Lamarr Reynolds",
-      "email": "steven.lamarr.reynolds@igd.fraunhofer.de"
+      "name": "Steven Lamarr Reynolds-Ringer",
+      "email": "steven.lamarr.reynolds-ringer@igd.fraunhofer.de"
     },
     {
       "name": "Jan Burmeister",
@@ -33,7 +33,7 @@
     "resize-observer-polyfill": "1.5.1"
   },
   "peerDependencies": {
-    "react": "^17.0.0 || ^18.0.0"
+    "react": "^17.0.0 || ^18.0.0 || ^19.0.0"
   },
   "devDependencies": {
     "@types/react": "^18.0.0",
