@@ -11,8 +11,8 @@ export type ResizeComponentProps = {
   size: {
     height?: number | string;
     width?: number | string;
-  },
-}
+  };
+};
 
 export function ResizeComponent<P>(WrappedComponent: React.ComponentType<P & SizeProps>) {
   const ComponentWithInjectedProps = (props: P & ResizeComponentProps) => {

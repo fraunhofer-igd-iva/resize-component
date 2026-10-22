@@ -3,8 +3,8 @@
  * size props from the ResizeComponent.
  */
 
-import React, { FC } from 'react';
-import { ResizeComponent, SizeProps } from '../Library';
+import React from "react";
+import { ResizeComponent, SizeProps } from "../Library";
 
 interface ComponentProps {
   color: string;

@@ -3,8 +3,8 @@
  * the current size of the ref-component.
  */
 
-import React, { FC } from 'react';
-import { useResizeObserver } from '../Library';
+import React from "react";
+import { useResizeObserver } from "../Library";
 
 function ExampleWithHook() {
   const [ref, size] = useResizeObserver();

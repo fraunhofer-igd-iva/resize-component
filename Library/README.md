@@ -2,9 +2,9 @@
 
 This library provides two React components that provide size information of a wrapped or referenced component.
 
-* **ResizeComponent**: Wraps a component into a `<div>` container and injects the size information of the container as props into the wrapped component. Optionally provide width and height properties for the container. This can be used to set the container's size in (responsive) CSS format, and pass numeric values in pixels to an SVG chart.
+- **ResizeComponent**: Wraps a component into a `<div>` container and injects the size information of the container as props into the wrapped component. Optionally provide width and height properties for the container. This can be used to set the container's size in (responsive) CSS format, and pass numeric values in pixels to an SVG chart.
 
-* **useResizeObserver Hook**: Provides the size information via a React hook. Can be used on any `ref`.
+- **useResizeObserver Hook**: Provides the size information via a React hook. Can be used on any `ref`.
 
 ## Installation
 
@@ -44,12 +44,12 @@ Simply wrap your component 'MyAwesomeChart' with the ResizeComponent. First impo
 import { ResizeComponent } from "@iva/resize-component";
 
 const MyAwesomeChart = (props) => {
-    // Injected props from ResizeComponent:
-    const { height, width } = props.size;
-    // ...
-}
+  // Injected props from ResizeComponent:
+  const { height, width } = props.size;
+  // ...
+};
 
-// Export the component wrapped like this 
+// Export the component wrapped like this
 export default ResizeComponent(MyAwesomeChart);
 ```
 

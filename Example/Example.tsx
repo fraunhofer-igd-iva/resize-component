@@ -1,6 +1,6 @@
-import React, { FC } from 'react';
-import ExampleChart from './ExampleChart';
-import ExampleWithHook from './ExampleWithHook';
+import React from "react";
+import ExampleChart from "./ExampleChart";
+import ExampleWithHook from "./ExampleWithHook";
 
 function Example() {
   return (

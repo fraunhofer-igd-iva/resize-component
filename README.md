@@ -2,9 +2,9 @@
 
 This library provides two React components that provide size information of a wrapped or referenced component.
 
-* **ResizeComponent**: Wraps a component into a `<div>` container and injects the size information of the container as props into the wrapped component. Optionally provide width and height properties for the container. This can be used to set the container's size in (responsive) CSS format, and pass numeric values in pixels to an SVG chart.
+- **ResizeComponent**: Wraps a component into a `<div>` container and injects the size information of the container as props into the wrapped component. Optionally provide width and height properties for the container. This can be used to set the container's size in (responsive) CSS format, and pass numeric values in pixels to an SVG chart.
 
-* **useResizeObserver Hook**: Provides the size information via a React hook. Can be used on any `ref`.
+- **useResizeObserver Hook**: Provides the size information via a React hook. Can be used on any `ref`.
 
 ## Installation
 
@@ -46,12 +46,12 @@ Simply wrap your component 'MyAwesomeChart' with the ResizeComponent. First impo
 import { ResizeComponent } from "@iva/resize-component";
 
 const MyAwesomeChart = (props) => {
-    // Injected props from ResizeComponent:
-    const { height, width } = props.size;
-    // ...
-}
+  // Injected props from ResizeComponent:
+  const { height, width } = props.size;
+  // ...
+};
 
-// Export the component wrapped like this 
+// Export the component wrapped like this
 export default ResizeComponent(MyAwesomeChart);
 ```
 
@@ -156,24 +156,28 @@ If you have given something like `size={{ height: "100%"}}` to your component, a
 ```tsx
 export const Chart = (props: ComponentProps & SizeProps) => {
   const d3Container = useRef<SVGSVGElement>(null);
-        
+
   // much code here
-  return (<svg
-    width={props.size.width}
-    height={props.size.height}
-    ref={d3Container}
-    xmlns="http://www.w3.org/2000/svg"
-    version="1.1"
-  />);
-}
+  return (
+    <svg
+      width={props.size.width}
+      height={props.size.height}
+      ref={d3Container}
+      xmlns="http://www.w3.org/2000/svg"
+      version="1.1"
+    />
+  );
+};
 
 export const ResponsiveChart = ResizeComponent(Chart);
 
-export const App = ()=> {
-  return (<div style={{height: "100%"}}>
-    <ResponsiveChart size={{}}/>
-  </div>);
-}
+export const App = () => {
+  return (
+    <div style={{ height: "100%" }}>
+      <ResponsiveChart size={{}} />
+    </div>
+  );
+};
 ```
 
 Solution: Ensure that the height is "bounded" somehow. This means, that you should not use `%` as a css measure in either the wrapping container, nor in the `size` prop.
@@ -201,41 +205,45 @@ export const App = ()=> {
 Lets assume that `Card` has a height and width assigned from somewhere. Hence, the `Card` is rendered with a fixed size. However, our ResponsiveChart would grow, unless we fix the `CardContent` height. To make CardContent fit the container, we use the resizeobserver to monitor the header size and then substract that value from the `CardContent`.
 
 ```tsx
-const WidgetContainer = ({ content, layout, title = "", endAdornment }: LayoutWidget)  => {
-    const [headerRef, headerSize] = useResizeObserver('border-box');
+const WidgetContainer = ({ content, layout, title = "", endAdornment }: LayoutWidget) => {
+  const [headerRef, headerSize] = useResizeObserver("border-box");
 
-    return <div key={layout.i} data-grid={layout}>
-        <Card>
-            <CardHeader title={title} action={<Button>Hit me</Button>} ref={headerRef} />
-            <CardContent sx={{
-                height: `calc(100% - ${headerSize?.height || 0}px)`,
-            }}>
-                <ResponsiveChart size={{
-                  /* no need to provide these because CardContent limits growth for us.*/
-                }}/>
-            </CardContent>
-        </Card>
+  return (
+    <div key={layout.i} data-grid={layout}>
+      <Card>
+        <CardHeader title={title} action={<Button>Hit me</Button>} ref={headerRef} />
+        <CardContent
+          sx={{
+            height: `calc(100% - ${headerSize?.height || 0}px)`,
+          }}
+        >
+          <ResponsiveChart
+            size={{/* no need to provide these because CardContent limits growth for us.*/}}
+          />
+        </CardContent>
+      </Card>
     </div>
-}
+  );
+};
 ```
 
 ## Changelog
 
-* **v6.4.0**: Fixed React 19 dependency.
-* **v6.3.0**: Changed branch to main. Changed publication repository to npm.
-* **v6.2.0**: Added optional parameter `box` to `useResizeObserver` to enable getting the border box of a ref.
-* **v6.1.2**: Fixed prepublish script to build before publishing, Update dependencies for React 18
-* **v6.1.1**: Fixed type in useResizeComponent to remove cast to any
-* **v6.1.0**: Added export for ResizeComponentProps to enable wrapping of ResizeComponents
-* **v6.0.4**: added /src folder to fix unresolved sourcemap
-* **v6.0.3**: fix repo path in package.json
-* **v6.0.2**: useResizeObserver now returns floored integer values
-* **v6.0.1**: Initial Observer size is now undefined instead of (0,0)
-* **v6.0.0**: API change, use of ResizeObserver API instead of event listener on 'window'
-* **v5.0.0**: API change towards simpler variable names (e.g. outputHeight -> height)
-* **v3.1.0**: output sizeSettings actually is `{outputHeight: number, outputWidth: number}` as defined in the contract.
-* **v3.0.0**: Fixed bugs, improved TypeScript support
-* **v2.0.0**: The API has remained the same, but the import and usage is slightly different. See "How to add it to a component".
+- **v6.4.0**: Fixed React 19 dependency.
+- **v6.3.0**: Changed branch to main. Changed publication repository to npm.
+- **v6.2.0**: Added optional parameter `box` to `useResizeObserver` to enable getting the border box of a ref.
+- **v6.1.2**: Fixed prepublish script to build before publishing, Update dependencies for React 18
+- **v6.1.1**: Fixed type in useResizeComponent to remove cast to any
+- **v6.1.0**: Added export for ResizeComponentProps to enable wrapping of ResizeComponents
+- **v6.0.4**: added /src folder to fix unresolved sourcemap
+- **v6.0.3**: fix repo path in package.json
+- **v6.0.2**: useResizeObserver now returns floored integer values
+- **v6.0.1**: Initial Observer size is now undefined instead of (0,0)
+- **v6.0.0**: API change, use of ResizeObserver API instead of event listener on 'window'
+- **v5.0.0**: API change towards simpler variable names (e.g. outputHeight -> height)
+- **v3.1.0**: output sizeSettings actually is `{outputHeight: number, outputWidth: number}` as defined in the contract.
+- **v3.0.0**: Fixed bugs, improved TypeScript support
+- **v2.0.0**: The API has remained the same, but the import and usage is slightly different. See "How to add it to a component".
 
 ## License
 
