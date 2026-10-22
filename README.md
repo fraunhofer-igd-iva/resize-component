@@ -149,7 +149,7 @@ const ExampleWithHook: FC = () => {
 
 ## FAQ
 
-### 1. My container grows indefinitly. What can I do?
+### 1. My container grows indefinitely. What can I do?
 
 If you have given something like `size={{ height: "100%"}}` to your component, and it grows and grows and grows, then the reason might be, that the outside container can grow, too. Hence, the solution is to restrict growth.
 
@@ -221,6 +221,7 @@ const WidgetContainer = ({ content, layout, title = "", endAdornment }: LayoutWi
 
 ## Changelog
 
+* **v6.4.0**: Fixed React 19 dependency.
 * **v6.3.0**: Changed branch to main. Changed publication repository to npm.
 * **v6.2.0**: Added optional parameter `box` to `useResizeObserver` to enable getting the border box of a ref.
 * **v6.1.2**: Fixed prepublish script to build before publishing, Update dependencies for React 18
